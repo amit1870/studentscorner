@@ -1,0 +1,34 @@
+{% extends "catalog/catalog.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+	<title>{% if page_title %} {{ page_title }} {% endif %} - {{ site_name }}
+	</title>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h1>{{ c.name }}</h1>
+		<div class="row">
+		{% for p in products %}
+		    <div class="col-md-4">
+		    	{% with 'catalog/images/products/thumbnails/'|add:p.image as image_static %}
+		    		<a href="{% url 'catalog:show_product' product_slug=p.slug %}">
+		    			<img src="{% static image_static %}" class="img-thumbnail" alt="{{ p.name }}" /> 
+		    		</a>
+				{% endwith %}
+				<br>
+		    	<strong>{{ p.name }}</strong>
+		    </div>
+		    {% if forloop.counter|divisibleby:3 %}
+		</div>
+		<div class="row">
+		    {% endif %}
+		{% endfor %}
+		</div>
+
+		
+		
+	</div>
+{% endblock %}

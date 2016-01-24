@@ -1,0 +1,30 @@
+{% extends "catalog/base.html" %}
+{% load catalog_tags %}
+{% load staticfiles %}
+
+{% block title %}
+	<title > {% if page_title %} {{ page_title }} {% endif %} - {{ site_name }} </title>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'catalog/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'catalog/css/navbar-fixed-top.css' %}"/>
+    
+{% endblock %}
+	
+{% block js %}
+	<script type="text/javascript" src="{% static 'catalog/js/jquery.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'catalog/js/bootstrap.js' %}"></script>
+{% endblock %}
+
+
+
+{% block site_wrapper %}
+	<div class="cart_box">
+		{% cart_box request %}
+
+	</div>
+	
+	
+	{% block content %} {% endblock %}
+{% endblock %}

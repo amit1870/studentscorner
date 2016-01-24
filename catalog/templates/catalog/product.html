@@ -1,0 +1,56 @@
+{% extends "catalog/catalog.html" %}
+{% load staticfiles %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				{% with 'catalog/images/products/main/'|add:p.image as image_static %}
+		    		<img src="{% static image_static %}" class="img-thumbnail" alt="{{ p.name }}" />
+				{% endwith %}
+		    	
+			</div>
+			<div class="col-md-8">
+				{{ p.name }}
+				Brand: <em>{{ p.brand }}</em>
+				<br /><br />
+				SKU: {{ p.sku }}
+				<br />
+				In categor{{ categories.count|pluralize:"y,ies" }}:
+				{% for c in categories %}
+				
+				<a href="{% url 'catalog:show_category' category_slug=c.slug  %}">{{ c.name }}</a>
+				{% if not forloop.last %}, {% endif %}
+				{% endfor %}
+				<br /><br />
+				{% if p.sale_price %}
+				Was: <del>$ {{ p.old_price }}</del>
+				<br />
+				Now: $ {{ p.price }}
+				{% else %}
+				Price: $ {{ p.price }}
+				{% endif %}
+				<br /><br />
+				<form method="post" action="." class="form-signin">
+					{% csrf_token %}
+					 
+					{{ form.as_p }}
+					<br>
+					<button class="btn  btn-success" type="submit" alt="Add To Cart">Add To Cart</button>
+					
+				</form>
+				<div></div>
+				<br /><br />
+				<div><br /><br /></div>
+				<h3>Product Description</h3>
+				{{ p.description }}
+				
+				
+
+
+
+			</div>
+		<div>
+	</div>
+
+{% endblock %}
