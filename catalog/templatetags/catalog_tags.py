@@ -20,4 +20,4 @@ def category_list(request_path):
 @register.inclusion_tag("catalog/tags/footer.html")
 def footer_links():
 	flatpage_list = FlatPage.objects.all()
-	return {'flatpage_list': flatpage_list }
+	return {'flatpage_list': flatpage_list}

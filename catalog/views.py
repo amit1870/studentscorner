@@ -4,6 +4,7 @@ from django.core import urlresolvers
 from cart import cart
 from django.http import HttpResponseRedirect
 from cart.forms import ProductAddToCartForm
+from cart.models import CartItem
 
 def index(request,template_name='catalog/index.html'):
 	page_title = "Food products for people ad for"
@@ -27,9 +28,9 @@ def show_product(request, product_slug, template_name='catalog/product.html'):
 	# evaluate the HTTP method
 	if request.method == 'POST':
 		postdata = request.POST.copy()
-		print postdata
 		form = ProductAddToCartForm(request, postdata)
-		print form
+		# cart_item = CartItem()
+		# my_form = ProductAddToCartForm(request, request.POST, instance=cart_item)
 		# check if posted data is valid 
 		if form.is_valid():
 			# add to cart and redirect to cart page

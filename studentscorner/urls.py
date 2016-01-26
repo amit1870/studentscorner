@@ -24,6 +24,7 @@ urlpatterns = [
     # url(r'^', include('preview.urls', namespace="preview")),
     url(r'^', include('catalog.urls', namespace="catalog")),
     url(r'^cart/', include('cart.urls',namespace="cart")),
+    url(r'^checkout/', include('checkout.urls',namespace="checkout")),
 ]
 
 handler404 = 'catalog.views.file_not_found_404'
