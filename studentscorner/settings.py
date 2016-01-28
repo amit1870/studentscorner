@@ -25,7 +25,7 @@ SECRET_KEY = '%%*v@1w-)z-)8#32)_x%n)4ll!@nq_@o*+0-nzthgej^fw^s-0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ENABLE_SSL = False
+ENABLE_SSL = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'utils',
     'cart',
     'checkout',
+    'accounts',
     # 'djangodblog',
 ]
 
@@ -148,6 +149,10 @@ AUTHNET_LOGIN = '9zWKbhaT75q'
 
 AUTHNET_KEY = '2b28P4r3Vj9A76SK'
 
+LOGIN_REDIRECT_URL = '/accounts/my_account/'
+
+AUTH_PROFILE_MODULE = 'accounts.userprofile'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
@@ -155,6 +160,8 @@ AUTHNET_KEY = '2b28P4r3Vj9A76SK'
 STATIC_URL = '/static/'
 
 SITE_NAME = 'Students Corner'
+
+SITE_ID = 1
 
 META_KEYWORDS = 'Food, Fruits'
 

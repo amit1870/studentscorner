@@ -5,26 +5,9 @@ from django.contrib.auth.models import User
 from catalog.models import Product
 import decimal
 
-class Order(models.Model):
-	# each individual status
-	SUBMITTED = 1
-	PROCESSED = 2
-	SHIPPED = 3
-	CANCELLED = 4
-
-	# set of possible order statuses
-	ORDER_STATUSES = ((SUBMITTED,'Submitted'),
-						(PROCESSED,'Processed'),
-						(SHIPPED,'Shipped'),
-						(CANCELLED,'Cancelled'),)
-
-	# order info
-	date = models.DateTimeField(auto_now_add=True)
-	status = models.IntegerField(choices=ORDER_STATUSES, default=SUBMITTED)
-	ip_address = models.GenericIPAddressField()
-	last_updated = models.DateTimeField(auto_now=True)
-	user = models.ForeignKey(User, null=True)
-	transaction_id = models.CharField(max_length=20)
+class BaseOrderInfo(models.Model):
+	class Meta:
+		abstract = True
 
 	# contact info
 	email = models.EmailField(max_length=50)
@@ -48,6 +31,30 @@ class Order(models.Model):
 	billing_country = models.CharField(max_length=50)
 	billing_zip = models.CharField(max_length=10)
 
+
+
+
+class Order(BaseOrderInfo):
+	# each individual status
+	SUBMITTED = 1
+	PROCESSED = 2
+	SHIPPED = 3
+	CANCELLED = 4
+
+	# set of possible order statuses
+	ORDER_STATUSES = ((SUBMITTED,'Submitted'),
+						(PROCESSED,'Processed'),
+						(SHIPPED,'Shipped'),
+						(CANCELLED,'Cancelled'),)
+
+	# order info
+	date = models.DateTimeField(auto_now_add=True)
+	status = models.IntegerField(choices=ORDER_STATUSES, default=SUBMITTED)
+	ip_address = models.GenericIPAddressField()
+	last_updated = models.DateTimeField(auto_now=True)
+	user = models.ForeignKey(User, null=True)
+	transaction_id = models.CharField(max_length=20)
+
 	def __unicode__(self):
 		return 'Order #' + str(self.id)
 
@@ -58,6 +65,10 @@ class Order(models.Model):
 		for item in order_items:
 			total += item.total
 		return total
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('accounts:order_details', (), { 'order_id': self.id })
 
 class OrderItem(models.Model):
 	product = models.ForeignKey(Product)

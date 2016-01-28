@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^', include('catalog.urls', namespace="catalog")),
     url(r'^cart/', include('cart.urls',namespace="cart")),
     url(r'^checkout/', include('checkout.urls',namespace="checkout")),
+    url(r'^accounts/', include('accounts.urls',namespace="accounts")),
+    url(r'^accounts/', include('django.contrib.auth.urls',namespace="accounts")),
 ]
 
 handler404 = 'catalog.views.file_not_found_404'

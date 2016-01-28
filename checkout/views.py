@@ -5,6 +5,7 @@ from .forms import CheckoutForm
 from .models import Order, OrderItem
 from . import checkout
 from cart import cart
+from accounts import profile
 
 def show_checkout(request, template_name='checkout/checkout.html'):
 	if cart.is_empty(request):
@@ -21,16 +22,20 @@ def show_checkout(request, template_name='checkout/checkout.html'):
 
 			if order_number :
 				request.session['order_number'] = order_number
-				receipt_url = urlresolvers.reverse('checkout_receipt')
+				receipt_url = urlresolvers.reverse('checkout:receipt')
 				return HttpResponseRedirect(receipt_url)
 		else:
 			error_message = 'Correct the errors below'
 
 	else:
-		form = CheckoutForm()
+		if request.user.is_authenticated():
+			user_profile = profile.retrieve(request)
+			form = CheckoutForm(instance=user_profile)
+		else:
+			form = CheckoutForm()
 	page_title = 'Checkout'
-
-	return render(request,template_name, {'page_title',page_title})
+	context = {'page_title':page_title, 'form':form}
+	return render(request,template_name, context)
 
 def receipt(request, template_name='checkout/receipt.html'):
 	order_number = request.session.get('order_number','')
