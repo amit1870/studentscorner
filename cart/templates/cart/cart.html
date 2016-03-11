@@ -1,5 +1,6 @@
 {% extends "catalog/catalog.html" %}
 {% load catalog_filters %}
+{% load staticfiles %}
 
 {% block title %}
 <title>{% if page_title %} {{ page_title }} {% endif %} - {{ site_name }}</title>
@@ -47,8 +48,11 @@
 						{% for item in cart_items %}
 						<tr>
 							<td>
-
-								<a href="#"> {{ item.name }}{{ item.slug }}  </a>
+							{% with 'catalog/images/products/thumbnails/'|add:item.product.image as image_static %}
+								<a href="{% url 'catalog:show_product' product_slug=item.product.slug %}">
+								<img src="{% static image_static %}" class="img-thumbnail" alt="{{ item.name }}" />
+								</a>
+							{% endwith %}
 
 							</td>
 							<td>{{ item.price | currency }}</td>

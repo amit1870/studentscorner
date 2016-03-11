@@ -8,7 +8,17 @@ from cart.models import CartItem
 
 def index(request,template_name='catalog/index.html'):
 	page_title = "Food products for people ad for"
-	return render(request,template_name,{'page_title':page_title})
+	categories = Category.objects.all()
+	slide_products = []
+	for category in categories:
+		try:
+			slide_products.append(category.product_set.latest('id'))
+		except:
+			print "DoesNotExist"
+		
+
+	context = {'page_title':page_title,'categories':categories,'slide_products':slide_products}
+	return render(request,template_name,context)
 
 def show_category(request,category_slug, template_name='catalog/catalog.html'):
 	c = get_object_or_404(Category,slug=category_slug)

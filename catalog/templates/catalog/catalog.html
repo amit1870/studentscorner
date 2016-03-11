@@ -9,6 +9,8 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'catalog/css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'catalog/css/navbar-fixed-top.css' %}"/>
+    <link rel="stylesheet" href="{% static 'catalog/css/carousel.css' %}"/>
+    <link rel="stylesheet" href="{% static 'catalog/css/signin.css' %}"/>
     
 {% endblock %}
 	
@@ -20,11 +22,9 @@
 
 
 {% block site_wrapper %}
-	<div class="cart_box">
+	<!-- <div class="cart_box">
 		{% cart_box request %}
-
-	</div>
-	
+	</div> -->
 	
 	{% block content %} {% endblock %}
 {% endblock %}

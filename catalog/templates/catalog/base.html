@@ -1,3 +1,4 @@
+{% load catalog_tags %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -22,13 +23,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{% url 'catalog:index' %}">Student's Corner</a>
+          <a class="navbar-brand" href="{% url 'catalog:index' %}">Cornerwale</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url 'catalog:show_category' category_slug='books' %}">Books</a></li>
-            <li><a href="{% url 'catalog:show_category' category_slug='stationery' %}">Gifts</a></li>
-            <li><a href="{% url 'catalog:show_category' category_slug='sports' %}">Sports</a></li>
+            <li class="active"><a href="{% url 'catalog:show_category' category_slug='books-media' %}">Books</a></li>
+            <li><a href="{% url 'catalog:show_category' category_slug='electronics' %}">Electronics</a></li>
+            <li><a href="{% url 'catalog:show_category' category_slug='auto-sports' %}">Sports</a></li>
             <li> 
               <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
@@ -40,7 +41,7 @@
             </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'accounts:login' %}?next={{ request.path }}">SignIn</a></li>
-                <li><a href="#">SignUp</a></li>
+                <li><a href="{% url 'cart:show_cart' %}">Cart{% cart_box request %}</a></li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                   <ul class="dropdown-menu">

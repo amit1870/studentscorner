@@ -1,7 +1,75 @@
 {% extends "catalog/catalog.html" %}
+{% load staticfiles %}
+
 {% block title %}
 <title>{% if page_title %} {{ page_title }} {% endif %} - {{ site_name }}</title>
 {% endblock %}
+
+
 {% block content %}
-	<h1>Welcome to Students Corner</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						{% for i in slide_products %}
+							{% if forloop.counter == 0 %}
+								<li data-target="#myCarousel" data-slide-to="{{forloop.counter}}" class="active"></li>
+							{% else %}
+								<li data-target="#myCarousel" data-slide-to="{{forloop.counter}}"></li>
+							{% endif %}
+						{% endfor %}
+					</ol>
+					<div class="carousel-inner" role="listbox">
+						{% for slide in slide_products %}
+							{% if forloop.counter0 == 0 %}
+								<div class="item active">
+							{% else %}
+								<div class="item">
+							{% endif %}
+
+								{% with 'catalog/images/products/main/'|add:slide.image as image_static %}
+								<a href="{% url 'catalog:show_product' product_slug=slide.slug %}">
+									<img class="first-slide" src="{% static image_static %}" alt="{{ slide.name }}" />
+								</a>
+								{% endwith %}
+								<div class="container">
+									<div class="carousel-caption">
+										<a class="btn btn-lg btn-success" href="{% url 'catalog:show_product' product_slug=slide.slug %}" role="button">Buy Now</a>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+					<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		{% for category in categories %}
+			<div class="page-header">
+				<h1>{{ category }}</h1>
+			</div>
+			<div class="row">
+				{% for product in category.product_set.values|slice:":4" %}
+					<div class="col-md-3">
+						{% with 'catalog/images/products/thumbnails/'|add:product.image as image_static %}
+							<a href="{% url 'catalog:show_product' product_slug=product.slug %}">
+								<img src="{% static image_static %}" class="img-thumbnail" alt="{{ product.name }}" /> 
+							</a>
+						{% endwith %}
+					</div>
+					{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+
 {% endblock %}

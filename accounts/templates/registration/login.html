@@ -1,14 +1,17 @@
 {% extends "catalog/catalog.html" %}
 {% block content %}
-
-{% if form.errors %}
-	<ul class="errorlist">
-		<li>You entered an invalid username or password.</li>
-	</ul>
-	<br />
+<div class="container">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+	{% if form.errors %}
+	<div class="alert alert-danger" role="alert">
+		<strong>Oh snap!</strong> You entered an invalid username or password.
+	</div>
 	{% endif %}
-	<form method="post" action="{% url 'accounts:login' %}">
+
+	<form class="form-signin" method="post" action="{% url 'accounts:login' %}">
 		{% csrf_token %}
+		<h2 class="form-signin-heading">Please sign in</h2>
 		<table summary="Login" id="login">
 			<caption>Login</caption>
 			<tr>
@@ -25,7 +28,12 @@
 				</td>
 			</tr>
 		</table>
+
 		<input type="hidden" name="next" value="{{ next }}" />
 	</form>
-
+		
+	</div>
+	<div class="col-md-2"></div>
+	
+</div>
 {% endblock %}
