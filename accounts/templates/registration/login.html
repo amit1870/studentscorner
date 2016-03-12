@@ -1,37 +1,28 @@
 {% extends "catalog/catalog.html" %}
 {% block content %}
 <div class="container">
-	<div class="col-md-2"></div>
-	<div class="col-md-8">
-	{% if form.errors %}
-	<div class="alert alert-danger" role="alert">
-		<strong>Oh snap!</strong> You entered an invalid username or password.
-	</div>
-	{% endif %}
+	<div class="row">
 
-	<form class="form-signin" method="post" action="{% url 'accounts:login' %}">
-		{% csrf_token %}
-		<h2 class="form-signin-heading">Please sign in</h2>
-		<table summary="Login" id="login">
-			<caption>Login</caption>
-			<tr>
-				<td>{{ form.username.label_tag }}:</td>
-				<td>{{ form.username }}</td>
-			</tr>
-			<tr>
-				<td>{{ form.password.label_tag }}:</td>
-				<td>{{ form.password }}</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="right">
-					<input type="submit" value="Login" />
-				</td>
-			</tr>
-		</table>
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			{% if form.errors %}
+			<div class="alert alert-danger" role="alert">
+				<strong>Oh snap!</strong> You entered an invalid username or password.
+			</div>
+			{% endif %}
 
-		<input type="hidden" name="next" value="{{ next }}" />
-	</form>
-		
+			<form class="form-signin" method="post" action="{% url 'accounts:login' %}">
+				{% csrf_token %}
+				<h2 class="form-signin-heading">Please sign in</h2>
+				{{ form.username.label_tag }}
+				{{ form.username }}
+
+				{{ form.password.label_tag }}
+				{{ form.password }}
+				<button class="btn btn-primary btn-block" type="submit">Login</button>
+				<input type="hidden" name="next" value="{{ next }}" />
+			</form>
+		</div>	
 	</div>
 	<div class="col-md-2"></div>
 	
