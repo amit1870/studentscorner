@@ -1,10 +1,12 @@
 {% extends "catalog/catalog.html" %}
+
 {% block content %}
 <div class="container">
 	<div class="row">
 
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
+			<br/>
 			{% if form.errors %}
 			<div class="alert alert-danger" role="alert">
 				<strong>Oh snap!</strong> You entered an invalid username or password.
@@ -14,13 +16,11 @@
 			<form class="form-signin" method="post" action="{% url 'accounts:login' %}">
 				{% csrf_token %}
 				<h2 class="form-signin-heading">Please sign in</h2>
-				{{ form.username.label_tag }}
 				{{ form.username }}
-
-				{{ form.password.label_tag }}
 				{{ form.password }}
-				<button class="btn btn-primary btn-block" type="submit">Login</button>
 				<input type="hidden" name="next" value="{{ next }}" />
+				<button class="btn btn-lg btn-primary btn-block" type="submit">SignIn</button>
+				
 			</form>
 		</div>	
 	</div>

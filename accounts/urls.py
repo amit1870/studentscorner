@@ -1,7 +1,9 @@
 from django.conf.urls import url
 from . import views
 from studentscorner import settings
-from django.contrib.auth.views import login,password_change,password_change_done
+from django.contrib.auth.views import login, password_change, password_change_done
+from forms import MyAuthenticationForm
+
 
 urlpatterns = [
 	
@@ -13,7 +15,7 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-	url(r'^login/$',login,{'template_name': 'registration/login.html'},name="login"),
-	url(r'^password-change/$',password_change,{'template_name': 'registration/password_change_form.html'},name="password_change"),
-	url(r'^password-change-done/$',password_change_done,{'template_name': 'registration/password_change_done.html'},name="password_change_done"),
+	url(r'^login/$',login,{'template_name': 'registration/login.html','authentication_form':MyAuthenticationForm},name="login"),
+	url(r'^password_change/$',password_change,{'template_name': 'registration/password_change_form.html'},name="password_change"),
+	url(r'^password_change/done/$',password_change_done,{'template_name': 'registration/password_change_done.html'},name="password_change_done"),
 ]

@@ -3,11 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core import urlresolvers
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import password_change
+
 from checkout.models import Order, OrderItem
 from .forms import UserProfileForm
 from . import profile
 
-def register(request, template_name="account/registration/register.html"):
+def register(request, template_name="accounts/registration/register.html"):
 	if request.method == "POST":
 		postdata = request.POST.copy()
 		form = UserCreationForm(postdata)
@@ -19,7 +21,7 @@ def register(request, template_name="account/registration/register.html"):
 			new_user = authenticate(username=un, password=pw)
 			if new_user and new_user.is_active:
 				login(request,new_user)
-				url = urlresolvers.reverse('account:my_account')
+				url = urlresolvers.reverse('accounts:my_account')
 				return HttpResponseRedirect(url)
 
 	else:
@@ -30,7 +32,7 @@ def register(request, template_name="account/registration/register.html"):
 	return render(request, template_name, context)
 
 @login_required
-def my_account(request, template_name="account/registration/my_account.html"):
+def my_account(request, template_name="accounts/registration/my_account.html"):
 	page_title = "My Account"
 	orders = Order.objects.filter(user=request.user)
 	name = request.user.username
@@ -38,7 +40,7 @@ def my_account(request, template_name="account/registration/my_account.html"):
 	return render(request, template_name, context)
 
 @login_required
-def order_details(request, order_id, template_name="account/registration/order_details.html"):
+def order_details(request, order_id, template_name="accounts/registration/order_details.html"):
 	order = get_object_or_404(Order, id=order_id, user=request.user)
 	page_title = "Order Details for Order #" + order_id
 	order_items = OrderItem.objects.filter(order=order)
@@ -46,7 +48,7 @@ def order_details(request, order_id, template_name="account/registration/order_d
 	return render(request, template_name, context)
 
 @login_required
-def order_info(request, template_name="account/registration/order_info.html"):
+def order_info(request, template_name="accounts/registration/order_info.html"):
 	if request.method == "POST":
 		postdata = request.POST.copy()
 		form = UserProfileForm(postdata)

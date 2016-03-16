@@ -23,10 +23,12 @@ def show_cart(request, template_name="cart/cart.html"):
 	cart_item_count = cart_items
 	page_title = 'Shopping Cart'
 
+	cart_subtotal = cart.cart_subtotal(request)
+
 	# for Google Checkout button
 	merchant_id = settings.GOOGLE_CHECKOUT_MERCHANT_ID
 
-	context = {'merchant_id':merchant_id,'page_title':page_title,'cart_items':cart_items,'cart_item_count':cart_item_count}
+	context = {'cart_subtotal':cart_subtotal,'merchant_id':merchant_id,'page_title':page_title,'cart_items':cart_items,'cart_item_count':cart_item_count}
 
 	return render(request, template_name, context)
 

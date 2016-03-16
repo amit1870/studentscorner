@@ -3,66 +3,54 @@
 
 {% block content %}
 	{% if not request.user.is_authenticated %}
-	<div class="fr">
-		<a href="{% url 'accounts:login' %}?next={{ request.path }}">
-			Have an account?<br />Sign in now!
-		</a>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+			<br/><br/>
+				Have an account?
+				<a href="{% url 'accounts:login' %}?next={{ request.path }}">
+					 Sign in now!
+				</a>
+			</div>
+		</div>
 	</div>
-{% endif %}
-	<h1>Checkout</h1>{% if error_message %}
-	<ul class="errorlist">
-		<li>{{ error_message }}</li>
-	</ul>
 	{% endif %}
-	<form action="." method="post">
-		{% csrf_token %}
-		<fieldset class="checkout">
-			<legend>Contact Info</legend>
-			<table>
-				{% form_table_row form.email %}
-				{% form_table_row form.phone %}
-			</table>
-		</fieldset>
-		<fieldset class="checkout">
-		<legend>Shipping Info</legend>
-			<table>
-				{% form_table_row form.shipping_name %}
-				{% form_table_row form.shipping_address_1 %}
-				{% form_table_row form.shipping_address_2 %}
-				{% form_table_row form.shipping_city %}
-				{% form_table_row form.shipping_state %}
-				{% form_table_row form.shipping_zip %}
-				{% form_table_row form.shipping_country %}
-			</table>
-		</fieldset>
-		<fieldset class="checkout">
-		<legend>Billing Info</legend>
-			<table>
-				{% form_table_row form.billing_name %}
-				{% form_table_row form.billing_address_1 %}
-				{% form_table_row form.billing_address_2 %}
-				{% form_table_row form.billing_city %}
-				{% form_table_row form.billing_state %}
-				{% form_table_row form.billing_zip %}
-				{% form_table_row form.billing_country %}
-			</table>
-		</fieldset>
-		<fieldset class="checkout">
-		<legend>Credit Card Info</legend>
-			<table>
-				{% form_table_row form.credit_card_number %}
-				{% form_table_row form.credit_card_type %}
-				{% form_table_row form.credit_card_expire_month %}
-				{% form_table_row form.credit_card_expire_year %}
-				{% form_table_row form.credit_card_cvv %}
-			</table>
-		</fieldset>
-		<table>
-			<tr>
-				<th colspan="2"><input type="submit" value="Place Order" class="submit" /></th>
-			</tr>
-		</table>
-	</form>
 
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="page-header">
+					<h1>Checkout</h1>
+				</div>
+				{% if form.errors %}
+				    {% for field in form %}
+				        {% for error in field.errors %}
+				            <div class="alert alert-danger">
+				                <strong>{{ field.name }}{{ error|escape }}</strong>
+				            </div>
+				        {% endfor %}
+				    {% endfor %}
+				    {% for error in form.non_field_errors %}
+				        <div class="alert alert-danger">
+				            <strong>{{ error|escape }}</strong>
+				        </div>
+				    {% endfor %}
+				{% endif %}
+				{% if error_message %}
+				
+				{% endif %}
+		
+				<form id="#securePasswordForm" class="form-signin" action="." method="post">
+					{% csrf_token %}
+					{% for field in form %}
+						{{ field }}
+					{% endfor %}
+					<br>
+					<button class="btn btn-lg btn-success btn-block" type="submit">Place Order</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
 {% endblock %}
 

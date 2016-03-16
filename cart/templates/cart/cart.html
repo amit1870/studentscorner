@@ -10,6 +10,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
+				<div class="page-header"><h1>Your Shopping Cart</h1></div>
+
 				<table class="table table-striped" summary="Your Shopping Cart" id="shopping_cart">
 					<caption class="lead">Your Shopping Cart</caption>
 					<thead>
@@ -17,7 +19,7 @@
 							<th>#</th>
 							<th>Product</th>
 							<th>Price</th>
-							<th>Name</th>
+							<th>Quantity</th>
 							<th></th>
 							<th></th>
 							<th>Total</th>
@@ -26,7 +28,7 @@
 					<tfoot>
 						<tr>
 							<th colspan="5">Cart Subtotal: </th>
-							<th> {{ cart_subtotal }} </th>
+							<th> {{ cart_subtotal | currency }} </th>
 						</tr>
 						{% if cart_items %}
 						<tr>
@@ -35,42 +37,41 @@
 									{% csrf_token %}
 									<!-- <input type="hidden" name="submit" value="Checkout" />
 									<input type="image" name="Google Checkout" alt="Fast checkout through Google" src="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id={{ merchant_id }}&w=180&h=46&style=white&variant=text&loc=en_US" height="46" width="180" /> -->
-									<input type="submit" name="submit" value="Checkout" alt="Checkout" />
+									<input type="submit" name="submit" class="btn btn-lg btn-warning" value="Checkout">
+									
 								</form>
-
-
 							</th>
 						</tr>
 						{% endif %}
 					</tfoot>
+
 					<tbody>
 						{% if cart_items %}
 						{% for item in cart_items %}
 						<tr>
+							<td>{{ forloop.counter }}</td>
 							<td>
 							{% with 'catalog/images/products/thumbnails/'|add:item.product.image as image_static %}
 								<a href="{% url 'catalog:show_product' product_slug=item.product.slug %}">
-								<img src="{% static image_static %}" class="img-thumbnail" alt="{{ item.name }}" />
+								<img style="width: 100px;height: 50px" src="{% static image_static %}" class="img-thumbnail" alt="{{ item.name }}" />
 								</a>
 							{% endwith %}
-
 							</td>
 							<td>{{ item.price | currency }}</td>
 							<td>
 								<form method="post" action=".">
 									{% csrf_token %}
-									<label for="quantity">Quantity:</label>
 									<input type="text" name="quantity" value="{{ item.quantity }}" id="quantity" size="2" maxlength="5">
 									<input type="hidden" name="item_id" value="{{ item.id }}"/>
 							</td>
 							<td>
-								<input type="submit" name="submit" value="Update"></form>
+								<input type="submit" name="submit" class="btn btn-success" value="Update"></form>
 							</td>
 							<td>
 								<form method="post" action=".">
 									{% csrf_token %}
 									<input type="hidden" name="item_id" value="{{ item.id }}" />
-									<input type="submit" name="submit" value="Remove"/>
+									<input type="submit" name="submit" class="btn btn-danger" value="Remove"/></form>
 								</form>
 							</td>
 							<td>{{ item.total|currency }}</td>
