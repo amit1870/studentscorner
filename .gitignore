@@ -1,5 +1,7 @@
-/*.pyc
-/*.jpeg
-/*.png
-/*.jpg
+*.pyc
+*.jpeg
+*.png
+*.jpg
+*~
+*.swp
 
